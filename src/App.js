@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 
-// import Hero from './template/app.template';
+let ImageCounter = function ( props ) {
+	console.log ( props );
+	return (
+		<div>
+			<img onClick={props.cliknulEpta.bind ( this )} className="App-logo" src={props.url} alt="logo"/>
+			<div className="count">{props.count}</div>
+		</div>
+	)
+};
+
 
 function Hero ( props ) {
-
 	let count = 0;
 
 	function cliknulEpta () {
@@ -24,24 +32,11 @@ function Hero ( props ) {
 
 
 class App extends Component {
-	// инициализируем состояние меодом
-
-	constructor (props){
-		super();
-		this.state = {
-			count: 0,
-			title:"Привет реакт",
-			text:"Библиотека для интерфейсов",
-			url:"/img/logo.svg"
-		};
-		console.log(this.state);
-	}
 
 
-	cliknulEpta () {
-		console.log(this);
-		this.setState ( { count : this.state.count + 1 } );
-
+	cliknulEpta ( hero ) {
+		hero.count = hero.count + 1;
+		console.log ( hero );
 	}
 
 
@@ -49,12 +44,18 @@ class App extends Component {
 
 		return (
 			<div>
-				<div className="App">
-					<img onClick={this.cliknulEpta.bind(this)} className="App-logo" src={this.state.url} alt="logo"/>
-					<h1>{this.state.title}</h1>
-					<p>{this.state.text}</p>
-					<div className="count">{this.state.count}</div>
-				</div>
+				{this.props.heroes.map ( ( hero, index ) => {
+					return (
+						<div key={index} className="App">
+							<ImageCounter
+								url={hero.url}
+								count={hero.count}
+								cliknulEpta={this.cliknulEpta.bind ( this, hero )}/>
+							<h1>{hero.title}</h1>
+							<p>{hero.text}</p>
+						</div>
+					)
+				} )}
 
 
 				<Hero
